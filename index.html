@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drilling Kuis Pajak – LCTP Riau 2026</title>
+  <meta name="description" content="Latihan soal kuis perpajakan per level berdasarkan materi LCTP Riau 2026, lengkap dengan fitur kartu untuk menambah soal sendiri.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+
+  <header id="site-header" class="site-header">
+    <div class="site-header__inner">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">LCTP</span>
+        <div class="brand__text">
+          <h1 class="brand__title">Drilling Kuis Pajak</h1>
+          <p class="brand__subtitle">LCTP Riau 2026</p>
+        </div>
+      </div>
+
+      <nav id="nav-main" class="nav-main" aria-label="Navigasi utama">
+        <button id="btn-nav-home" class="nav-main__button is-active" type="button">Beranda</button>
+        <button id="btn-nav-cards" class="nav-main__button" type="button">
+          Kartu Saya
+          <span id="badge-card-count" class="nav-main__badge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="site-main">
+
+    <!-- ===== BERANDA ===== -->
+    <section id="view-home" class="view">
+      <section id="section-hero" class="hero">
+        <div class="hero__content">
+          <p class="hero__eyebrow">Persiapan Penyisihan I &amp; II</p>
+          <h2 class="hero__title">Latihan soal pajak, level demi level.</h2>
+          <p class="hero__text">
+            Selesaikan tiap level (20 soal) dengan skor minimal 70% untuk membuka level berikutnya.
+            Punya materi baru? Tambahkan kartu, dan soal kuisnya dibuat otomatis.
+          </p>
+          <div class="hero__actions">
+            <button id="btn-start-random" class="button button--primary" type="button">Latihan Acak (20 soal)</button>
+            <button id="btn-go-cards" class="button button--outline-light" type="button">+ Tambah Kartu</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-stats" class="stats" aria-label="Ringkasan progres">
+        <article class="stat-card">
+          <p class="stat-card__value" id="stat-total-questions">0</p>
+          <p class="stat-card__label">Total soal</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__value" id="stat-levels-passed">0 / 0</p>
+          <p class="stat-card__label">Level lulus</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__value" id="stat-average-score">0%</p>
+          <p class="stat-card__label">Rata-rata skor terbaik</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__value" id="stat-custom-cards">0</p>
+          <p class="stat-card__label">Kartu buatanmu</p>
+        </article>
+      </section>
+
+      <section id="section-levels" class="levels">
+        <div class="levels__header">
+          <h2 class="section-title">Pilih Level</h2>
+          <div class="levels__settings">
+            <label class="switch" for="input-unlock-all">
+              <input id="input-unlock-all" class="switch__input" type="checkbox">
+              <span class="switch__label">Buka semua level</span>
+            </label>
+            <button id="btn-reset-progress" class="button button--small button--ghost" type="button">Reset progres</button>
+          </div>
+        </div>
+        <ul id="level-grid" class="level-grid"></ul>
+      </section>
+    </section>
+
+    <!-- ===== KUIS ===== -->
+    <section id="view-quiz" class="view" hidden>
+      <div class="quiz-panel">
+        <div class="quiz-panel__top">
+          <button id="btn-quit-quiz" class="button button--small button--ghost" type="button">← Keluar</button>
+          <div class="quiz-panel__meta">
+            <p id="quiz-level-label" class="quiz-panel__label">Level</p>
+            <h2 id="quiz-title" class="quiz-panel__title">Judul</h2>
+          </div>
+          <p id="quiz-score-live" class="quiz-panel__score">Benar: 0</p>
+        </div>
+
+        <div class="progress" aria-hidden="true">
+          <div id="quiz-progress-bar" class="progress__bar"></div>
+        </div>
+        <p id="quiz-progress-text" class="quiz-panel__progress-text">Soal 1 dari 20</p>
+
+        <article class="question-card" aria-live="polite">
+          <p id="quiz-question-source" class="question-card__source"></p>
+          <h3 id="quiz-question-text" class="question-card__text"></h3>
+          <ul id="quiz-options" class="option-list"></ul>
+
+          <div id="quiz-feedback" class="feedback" hidden>
+            <p id="quiz-feedback-title" class="feedback__title"></p>
+            <p id="quiz-feedback-explanation" class="feedback__text"></p>
+          </div>
+        </article>
+
+        <div class="quiz-panel__actions">
+          <p class="quiz-panel__hint">Tips: tekan 1–4 (atau A–D) untuk menjawab, Enter untuk lanjut.</p>
+          <button id="btn-next-question" class="button button--primary" type="button" disabled>Soal Berikutnya</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HASIL ===== -->
+    <section id="view-result" class="view" hidden>
+      <div class="result-panel">
+        <p id="result-level-label" class="result-panel__label"></p>
+        <h2 id="result-title" class="result-panel__title"></h2>
+        <p id="result-stars" class="result-panel__stars"></p>
+        <p id="result-score" class="result-panel__score">0 / 0</p>
+        <p id="result-percent" class="result-panel__percent">0%</p>
+        <p id="result-message" class="result-panel__message"></p>
+
+        <div class="result-panel__actions">
+          <button id="btn-retry-level" class="button button--outline" type="button">Ulangi</button>
+          <button id="btn-next-level" class="button button--primary" type="button" hidden>Level Berikutnya →</button>
+          <button id="btn-back-home" class="button button--ghost" type="button">Kembali ke Beranda</button>
+        </div>
+      </div>
+
+      <section id="section-review" class="review" hidden>
+        <h3 class="section-title">Tinjau Jawaban yang Salah</h3>
+        <ol id="result-review-list" class="review__list"></ol>
+      </section>
+    </section>
+
+    <!-- ===== KARTU ===== -->
+    <section id="view-cards" class="view" hidden>
+      <div class="cards-layout">
+        <section id="section-card-form" class="panel">
+          <h2 id="card-form-title" class="section-title">Tambah Kartu Baru</h2>
+          <p class="panel__intro">
+            Tulis soal dan jawabannya. Website otomatis membuat soal pilihan ganda dan memasukkannya ke drilling.
+          </p>
+
+          <form id="form-add-card" class="form" novalidate>
+            <input id="input-card-id" type="hidden">
+
+            <div class="form__group">
+              <label class="form__label" for="input-card-question">Soal</label>
+              <textarea id="input-card-question" class="form__control" rows="3" placeholder="Contoh: Apa tarif PPh Badan yang berlaku mulai tahun pajak 2022?"></textarea>
+            </div>
+
+            <div class="form__group">
+              <label class="form__label" for="input-card-answer">Jawaban benar</label>
+              <input id="input-card-answer" class="form__control" type="text" placeholder="Contoh: 22%">
+            </div>
+
+            <div class="form__group">
+              <label class="form__label" for="input-card-explanation">Penjelasan (opsional)</label>
+              <textarea id="input-card-explanation" class="form__control" rows="3" placeholder="Muncul setelah menjawab, berguna untuk belajar."></textarea>
+            </div>
+
+            <details id="details-card-wrong" class="details">
+              <summary class="details__summary">Pilihan jawaban salah sendiri (opsional)</summary>
+              <p class="details__hint">Kosongkan jika ingin pilihan salah dibuat otomatis dari jawaban kartu/soal lain.</p>
+              <input id="input-card-wrong-1" class="form__control" type="text" placeholder="Pilihan salah 1">
+              <input id="input-card-wrong-2" class="form__control" type="text" placeholder="Pilihan salah 2">
+              <input id="input-card-wrong-3" class="form__control" type="text" placeholder="Pilihan salah 3">
+            </details>
+
+            <div class="form__group">
+              <label class="form__label" for="select-card-target">Masukkan ke</label>
+              <select id="select-card-target" class="form__control"></select>
+            </div>
+
+            <p id="card-form-message" class="form-message" role="status"></p>
+
+            <div class="form__actions">
+              <button id="btn-submit-card" class="button button--primary" type="submit">Simpan Kartu</button>
+              <button id="btn-cancel-edit" class="button button--ghost" type="button" hidden>Batal</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="section-card-list" class="panel">
+          <div class="panel__header">
+            <h2 class="section-title">Kartu Saya (<span id="card-count">0</span>)</h2>
+            <div class="panel__tools">
+              <button id="btn-export-cards" class="button button--small button--outline" type="button">Ekspor</button>
+              <label class="button button--small button--outline" for="input-import-cards">Impor</label>
+              <input id="input-import-cards" class="visually-hidden" type="file" accept="application/json,.json">
+              <button id="btn-clear-cards" class="button button--small button--danger" type="button">Hapus semua</button>
+            </div>
+          </div>
+          <p id="card-list-empty" class="panel__empty">Belum ada kartu. Tambahkan kartu pertamamu di formulir.</p>
+          <ul id="card-list" class="card-list"></ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer">
+    <p>Disusun dari Materi Penyisihan I &amp; II LCTP Riau 2026. Kartu dan progres tersimpan di browser perangkat ini.</p>
+  </footer>
+
+  <script src="js/data/level-01.js"></script>
+  <script src="js/data/level-02.js"></script>
+  <script src="js/data/level-03.js"></script>
+  <script src="js/data/level-04.js"></script>
+  <script src="js/data/level-05.js"></script>
+  <script src="js/data/level-06.js"></script>
+  <script src="js/data/level-07.js"></script>
+  <script src="js/data/level-08.js"></script>
+  <script src="js/data/level-09.js"></script>
+  <script src="js/data/level-10.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/question-bank.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/ui-levels.js"></script>
+  <script src="js/ui-quiz.js"></script>
+  <script src="js/ui-cards.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
